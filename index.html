@@ -21,6 +21,10 @@ body{
     justify-content:center;
 }
 
+#main{
+    display:block;
+}
+
 h1{
     font-size:2.2em;
     margin-bottom:10px;
@@ -70,6 +74,20 @@ button{
     font-size:1.4em;
 }
 
+/* GALERÍA */
+#gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+#gallery img{
+    width:100%;
+    border-radius:15px;
+    box-shadow:0 3px 6px rgba(0,0,0,.3);
+}
+
 /* CONTADOR */
 #counter{
     margin-top:15px;
@@ -82,19 +100,43 @@ button{
 
 <body>
 
-<div class="heart">❤️</div>
+<!-- PARTE INICIAL -->
+<div id="main">
 
-<h1>¿Quieres ser mi San Valentín?</h1>
-<div class="sub">Piénsalo bien… 😌</div>
+    <div class="heart">❤️</div>
 
-<div class="buttons">
-    <button id="yes">Sí 💖</button>
-    <button id="no">No</button>
+    <h1>¿Quieres ser mi San Valentín?</h1>
+    <div class="sub">Piénsalo bien… 😌</div>
+
+    <div class="buttons">
+        <button id="yes">Sí 💖</button>
+        <button id="no">No</button>
+    </div>
+
 </div>
 
+<!-- PARTE FINAL -->
 <div id="final">
+
     <p>Sabía que dirías que sí 💘</p>
+
+    <!-- Fotos -->
+    <div id="gallery">
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+        <img src="foto4.jpg">
+        <img src="foto5.jpg">
+        <img src="foto6.jpg">
+        <img src="foto7.jpg">
+        <img src="foto8.jpg">
+        <img src="foto9.jpg">
+        <img src="foto10.jpg">
+    </div>
+
+    <!-- Contador -->
     <div id="counter"></div>
+
 </div>
 
 <!-- Música -->
@@ -106,22 +148,23 @@ allow="autoplay"></iframe>
 
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
+const main = document.getElementById("main");
 const final = document.getElementById("final");
 const counter = document.getElementById("counter");
 const music = document.getElementById("music");
 
 let scale = 1;
 
-/* Fecha inicio: 17 Septiembre 2024 */
-const startDate = new Date(2024, 8, 17);
+/* Fecha inicio */
+const startDate = new Date(2024,8,17);
 
-/* Agrandar SÍ */
+/* NO → agranda SÍ */
 no.addEventListener("click", () => {
     scale += 0.25;
     yes.style.transform = `scale(${scale})`;
 });
 
-/* Calcular tiempo juntos */
+/* Calcular tiempo */
 function calculateTime(){
 
     const today = new Date();
@@ -155,7 +198,10 @@ function playMusic(){
 /* SÍ */
 yes.addEventListener("click", () => {
 
-    document.querySelector(".buttons").style.display = "none";
+    /* Ocultar todo lo inicial */
+    main.style.display = "none";
+
+    /* Mostrar final */
     final.style.display = "block";
 
     calculateTime();
