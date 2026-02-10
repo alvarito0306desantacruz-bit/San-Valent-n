@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestra Historia 💖</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#ff9a9e,#fecfef,#ffecd2);
+    color:#d63384;
+    text-align:center;
+    padding:20px;
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+h1{font-size:1.8em;}
+
+.buttons{
+    margin-top:25px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items:center;
+}
+
+button{
+    width:80%;
+    max-width:300px;
+    padding:15px;
+    font-size:1.2em;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 4px 8px rgba(0,0,0,.2);
+}
+
+#yes{
+    background:linear-gradient(45deg,#ff6b6b,#feca57);
+    color:white;
+}
+
+#no{
+    background:linear-gradient(45deg,#a8e6cf,#dcedc8);
+    color:#333;
+}
+
+#message{
+    display:none;
+    margin-top:20px;
+    font-size:1.3em;
+    background:rgba(255,255,255,.9);
+    padding:20px;
+    border-radius:20px;
+}
+
+#gallery{
+    display:none;
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+#gallery img{
+    width:100%;
+    border-radius:15px;
+    object-fit:cover;
+    box-shadow:0 3px 6px rgba(0,0,0,.3);
+}
+
+#counter{
+    display:none;
+    margin-top:25px;
+    font-size:1.3em;
+    background:rgba(255,255,255,.85);
+    padding:15px;
+    border-radius:15px;
+}
+
+#counter span{
+    font-weight:bold;
+    color:#ff477e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>¿Quieres salir conmigo en San Valentín? 💕</h1>
+
+<div class="buttons">
+    <button id="yes">Sí 💖</button>
+    <button id="no">No 🙈</button>
+</div>
+
+<div id="message">
+    <p>Te amo muchísimo 💘</p>
+    <p>Gracias por compartir tu vida conmigo 🥰</p>
+</div>
+
+<div id="gallery">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+    <img src="foto4.jpg">
+    <img src="foto5.jpg">
+    <img src="foto6.jpg">
+    <img src="foto7.jpg">
+    <img src="foto8.jpg">
+    <img src="foto9.jpg">
+    <img src="foto10.jpg">
+</div>
+
+<div id="counter">
+    💕 Llevamos juntos: <span id="days">0</span> días 💕
+</div>
+
+<iframe id="music" width="0" height="0"
+src="https://www.youtube.com/embed/rtOvBOTyX00?enablejsapi=1"
+allow="autoplay"></iframe>
+
+<script>
+
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+const gallery = document.getElementById("gallery");
+const counter = document.getElementById("counter");
+const daysSpan = document.getElementById("days");
+const music = document.getElementById("music");
+
+let scale = 1;
+let noClicks = 0;
+
+const startDate = new Date(2024, 8, 17);
+
+function calculateDays(){
+    const today = new Date();
+    const diff = today - startDate;
+    daysSpan.textContent = Math.floor(diff / (1000*60*60*24));
+}
+
+function playMusic(){
+    music.contentWindow.postMessage(
+    '{"event":"command","func":"playVideo","args":""}',
+    '*');
+}
+
+noBtn.addEventListener("click",()=>{
+
+    noClicks++;
+    scale += 0.3;
+
+    yesBtn.style.transform = `scale(${scale})`;
+
+    const x = Math.random()*200-100;
+    const y = Math.random()*200-100;
+
+    noBtn.style.transform = `translate(${x}px,${y}px)`;
+
+    if(noClicks >= 6){
+        noBtn.style.display = "none";
+    }
+});
+
+yesBtn.addEventListener("click",()=>{
+
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    message.style.display = "block";
+    gallery.style.display = "grid";
+    counter.style.display = "block";
+
+    calculateDays();
+    playMusic();
+});
+
+</script>
+
+</body>
+</html>
