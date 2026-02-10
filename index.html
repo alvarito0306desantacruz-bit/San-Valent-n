@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>San Valentín 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
@@ -11,40 +10,40 @@
 <style>
 body{
     font-family:'Dancing Script', cursive;
-    background:linear-gradient(135deg,#ffe6ea,#fff1f5);
-    color:#b03060;
-    text-align:center;
     margin:0;
     min-height:100vh;
     display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffe6ea,#fff1f5);
+    color:#b03060;
+    text-align:center;
+}
+
+/* PANTALLAS */
+.screen{
+    display:none;
     flex-direction:column;
+    align-items:center;
+    padding:20px;
+}
+
+#screen1{ display:flex; }
+#screen2{
+    background:linear-gradient(135deg,#111,#333);
+    color:white;
+    min-height:100vh;
+    width:100%;
     justify-content:center;
 }
 
-#main{
-    display:block;
-}
-
-h1{
-    font-size:2.2em;
-    margin-bottom:10px;
-}
-
-.heart{
-    font-size:3em;
-    margin-bottom:10px;
-}
-
-.sub{
-    font-size:1.2em;
-    opacity:.8;
-    margin-bottom:25px;
-}
+/* TEXTO */
+h1{ font-size:2.3em; }
+.sub{ opacity:.8; margin-bottom:25px; }
 
 /* BOTONES */
 .buttons{
     display:flex;
-    justify-content:center;
     gap:20px;
 }
 
@@ -57,138 +56,110 @@ button{
     transition:transform .3s ease;
 }
 
-#yes{
-    background:#ff5c8a;
-    color:white;
+#yes{ background:#ff5c8a; color:white; }
+#no{ background:#e0e0e0; color:#444; }
+
+/* CORAZÓN LATIENDO */
+.heart{
+    font-size:5em;
+    animation:beat 1s infinite;
+    margin-bottom:20px;
 }
 
-#no{
-    background:#e0e0e0;
-    color:#444;
-}
-
-/* FINAL */
-#final{
-    display:none;
-    margin-top:25px;
-    font-size:1.4em;
+@keyframes beat{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.3);}
+    100%{transform:scale(1);}
 }
 
 /* GALERÍA */
-#gallery{
+.gallery{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:10px;
     margin-top:20px;
 }
 
-#gallery img{
+.gallery img{
     width:100%;
     border-radius:15px;
-    box-shadow:0 3px 6px rgba(0,0,0,.3);
 }
 
 /* CONTADOR */
 #counter{
     margin-top:15px;
     font-size:1.3em;
-    color:#ff3f7f;
-    font-weight:bold;
+    color:#ffb6c1;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PARTE INICIAL -->
-<div id="main">
-
-    <div class="heart">❤️</div>
-
-    <h1>¿Quieres ser mi San Valentín?</h1>
+<!-- PANTALLA 1 -->
+<div class="screen" id="screen1">
+    <h1>¿Quieres ser mi San Valentín? 💕</h1>
     <div class="sub">Piénsalo bien… 😌</div>
 
     <div class="buttons">
         <button id="yes">Sí 💖</button>
         <button id="no">No</button>
     </div>
-
 </div>
 
-<!-- PARTE FINAL -->
-<div id="final">
+<!-- PANTALLA 2 -->
+<div class="screen" id="screen2">
+    <div class="heart">🤍</div>
 
-    <p>Sabía que dirías que sí 💘</p>
+    <h1>Sabía que elegirías bien 💘</h1>
+    <p>Nos vemos este viernes para nuestra cita</p>
 
-    <!-- Fotos -->
-    <div id="gallery">
-        <img src="foto1.jpg">
-        <img src="foto2.jpg">
-        <img src="foto3.jpg">
-        <img src="foto4.jpg">
-        <img src="foto5.jpg">
-        <img src="foto6.jpg">
-        <img src="foto7.jpg">
-        <img src="foto8.jpg">
-        <img src="foto9.jpg">
-        <img src="foto10.jpg">
-    </div>
-
-    <!-- Contador -->
     <div id="counter"></div>
 
+    <div class="gallery">
+        <img src="foto1.jpg"><img src="foto2.jpg">
+        <img src="foto3.jpg"><img src="foto4.jpg">
+        <img src="foto5.jpg"><img src="foto6.jpg">
+        <img src="foto7.jpg"><img src="foto8.jpg">
+        <img src="foto9.jpg"><img src="foto10.jpg">
+    </div>
 </div>
 
-<!-- Música -->
+<!-- MÚSICA -->
 <iframe id="music" width="0" height="0"
 src="https://www.youtube.com/embed/rtOvBOTyX00?enablejsapi=1"
 allow="autoplay"></iframe>
 
 <script>
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const s1=document.getElementById("screen1");
+const s2=document.getElementById("screen2");
+const counter=document.getElementById("counter");
+const music=document.getElementById("music");
 
-const yes = document.getElementById("yes");
-const no = document.getElementById("no");
-const main = document.getElementById("main");
-const final = document.getElementById("final");
-const counter = document.getElementById("counter");
-const music = document.getElementById("music");
+let scale=1;
+const start=new Date(2024,8,17);
 
-let scale = 1;
+/* NO agranda SÍ */
+no.onclick=()=>{
+    scale+=0.25;
+    yes.style.transform=`scale(${scale})`;
+};
 
-/* Fecha inicio */
-const startDate = new Date(2024,8,17);
-
-/* NO → agranda SÍ */
-no.addEventListener("click", () => {
-    scale += 0.25;
-    yes.style.transform = `scale(${scale})`;
-});
-
-/* Calcular tiempo */
-function calculateTime(){
-
-    const today = new Date();
-
-    let years = today.getFullYear() - startDate.getFullYear();
-    let months = today.getMonth() - startDate.getMonth();
-    let days = today.getDate() - startDate.getDate();
-
-    if(days < 0){
-        months--;
-        days += 30;
-    }
-
-    if(months < 0){
-        years--;
-        months += 12;
-    }
-
-    counter.textContent =
-      `💕 Llevamos juntos: ${years} años, ${months} meses y ${days} días 💕`;
+/* CONTADOR */
+function calc(){
+    const t=new Date();
+    let y=t.getFullYear()-start.getFullYear();
+    let m=t.getMonth()-start.getMonth();
+    let d=t.getDate()-start.getDate();
+    if(d<0){m--;d+=30;}
+    if(m<0){y--;m+=12;}
+    counter.textContent=`Llevamos juntos ${y} años, ${m} meses y ${d} días`;
 }
 
-/* Música */
-function playMusic(){
+/* MÚSICA */
+function play(){
     music.contentWindow.postMessage(
         '{"event":"command","func":"playVideo","args":""}',
         '*'
@@ -196,17 +167,12 @@ function playMusic(){
 }
 
 /* SÍ */
-yes.addEventListener("click", () => {
-
-    /* Ocultar todo lo inicial */
-    main.style.display = "none";
-
-    /* Mostrar final */
-    final.style.display = "block";
-
-    calculateTime();
-    playMusic();
-});
+yes.onclick=()=>{
+    s1.style.display="none";
+    s2.style.display="flex";
+    calc();
+    play();
+};
 </script>
 
 </body>
