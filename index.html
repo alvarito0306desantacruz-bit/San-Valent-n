@@ -19,25 +19,27 @@ body{
     justify-content:center;
 }
 
-h1{font-size:1.8em;}
+h1{
+    font-size:1.8em;
+}
 
+/* BOTONES EN LA MISMA FILA */
 .buttons{
-    margin-top:25px;
+    margin-top:30px;
     display:flex;
-    flex-direction:column;
+    justify-content:center;
     gap:20px;
-    align-items:center;
 }
 
 button{
-    width:80%;
-    max-width:300px;
+    width:130px;
     padding:15px;
-    font-size:1.2em;
+    font-size:1.1em;
     border:none;
     border-radius:50px;
     cursor:pointer;
     box-shadow:0 4px 8px rgba(0,0,0,.2);
+    transition:transform 0.3s ease;
 }
 
 #yes{
@@ -50,15 +52,17 @@ button{
     color:#333;
 }
 
+/* MENSAJE */
 #message{
     display:none;
-    margin-top:20px;
+    margin-top:25px;
     font-size:1.3em;
     background:rgba(255,255,255,.9);
     padding:20px;
     border-radius:20px;
 }
 
+/* GALERÍA */
 #gallery{
     display:none;
     margin-top:25px;
@@ -70,10 +74,10 @@ button{
 #gallery img{
     width:100%;
     border-radius:15px;
-    object-fit:cover;
     box-shadow:0 3px 6px rgba(0,0,0,.3);
 }
 
+/* CONTADOR */
 #counter{
     display:none;
     margin-top:25px;
@@ -136,39 +140,34 @@ const daysSpan = document.getElementById("days");
 const music = document.getElementById("music");
 
 let scale = 1;
-let noClicks = 0;
 
-const startDate = new Date(2024, 8, 17);
+/* Fecha inicio */
+const startDate = new Date(2024,8,17);
 
+/* Contador */
 function calculateDays(){
     const today = new Date();
     const diff = today - startDate;
     daysSpan.textContent = Math.floor(diff / (1000*60*60*24));
 }
 
+/* Música */
 function playMusic(){
     music.contentWindow.postMessage(
     '{"event":"command","func":"playVideo","args":""}',
     '*');
 }
 
+/* BOTÓN NO → SOLO AGRANDA EL SÍ */
 noBtn.addEventListener("click",()=>{
 
-    noClicks++;
     scale += 0.3;
 
     yesBtn.style.transform = `scale(${scale})`;
 
-    const x = Math.random()*200-100;
-    const y = Math.random()*200-100;
-
-    noBtn.style.transform = `translate(${x}px,${y}px)`;
-
-    if(noClicks >= 6){
-        noBtn.style.display = "none";
-    }
 });
 
+/* BOTÓN SÍ */
 yesBtn.addEventListener("click",()=>{
 
     yesBtn.style.display = "none";
