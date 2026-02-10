@@ -20,7 +20,7 @@ body{
     text-align:center;
 }
 
-/* PANTALLAS */
+/* Pantallas */
 .screen{
     display:none;
     flex-direction:column;
@@ -29,19 +29,19 @@ body{
 }
 
 #screen1{ display:flex; }
+
 #screen2{
     background:linear-gradient(135deg,#111,#333);
     color:white;
     min-height:100vh;
     width:100%;
-    justify-content:center;
 }
 
-/* TEXTO */
+/* Texto */
 h1{ font-size:2.3em; }
 .sub{ opacity:.8; margin-bottom:25px; }
 
-/* BOTONES */
+/* Botones */
 .buttons{
     display:flex;
     gap:20px;
@@ -59,11 +59,11 @@ button{
 #yes{ background:#ff5c8a; color:white; }
 #no{ background:#e0e0e0; color:#444; }
 
-/* CORAZÓN LATIENDO */
+/* Corazón */
 .heart{
     font-size:5em;
     animation:beat 1s infinite;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
 @keyframes beat{
@@ -72,7 +72,7 @@ button{
     100%{transform:scale(1);}
 }
 
-/* GALERÍA */
+/* Galería */
 .gallery{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -85,7 +85,7 @@ button{
     border-radius:15px;
 }
 
-/* CONTADOR */
+/* Contador */
 #counter{
     margin-top:15px;
     font-size:1.3em;
@@ -96,8 +96,9 @@ button{
 
 <body>
 
-<!-- PANTALLA 1 -->
+<!-- Pantalla inicial -->
 <div class="screen" id="screen1">
+
     <h1>¿Quieres ser mi San Valentín? 💕</h1>
     <div class="sub">Piénsalo bien… 😌</div>
 
@@ -105,10 +106,12 @@ button{
         <button id="yes">Sí 💖</button>
         <button id="no">No</button>
     </div>
+
 </div>
 
-<!-- PANTALLA 2 -->
+<!-- Pantalla final -->
 <div class="screen" id="screen2">
+
     <div class="heart">🤍</div>
 
     <h1>Sabía que elegirías bien 💘</h1>
@@ -123,12 +126,11 @@ button{
         <img src="foto7.jpg"><img src="foto8.jpg">
         <img src="foto9.jpg"><img src="foto10.jpg">
     </div>
+
 </div>
 
-<!-- MÚSICA -->
-<iframe id="music" width="0" height="0"
-src="https://www.youtube.com/embed/rtOvBOTyX00?enablejsapi=1"
-allow="autoplay"></iframe>
+<!-- Audio MP3 -->
+<audio id="audio" src="canciones.mp3" preload="auto"></audio>
 
 <script>
 const yes=document.getElementById("yes");
@@ -136,42 +138,41 @@ const no=document.getElementById("no");
 const s1=document.getElementById("screen1");
 const s2=document.getElementById("screen2");
 const counter=document.getElementById("counter");
-const music=document.getElementById("music");
+const audio=document.getElementById("audio");
 
 let scale=1;
+
+/* Fecha inicio: 17 septiembre 2024 */
 const start=new Date(2024,8,17);
 
-/* NO agranda SÍ */
+/* NO → agranda SÍ */
 no.onclick=()=>{
     scale+=0.25;
     yes.style.transform=`scale(${scale})`;
 };
 
-/* CONTADOR */
+/* Calcular contador */
 function calc(){
     const t=new Date();
+
     let y=t.getFullYear()-start.getFullYear();
     let m=t.getMonth()-start.getMonth();
     let d=t.getDate()-start.getDate();
+
     if(d<0){m--;d+=30;}
     if(m<0){y--;m+=12;}
-    counter.textContent=`Llevamos juntos ${y} años, ${m} meses y ${d} días`;
-}
 
-/* MÚSICA */
-function play(){
-    music.contentWindow.postMessage(
-        '{"event":"command","func":"playVideo","args":""}',
-        '*'
-    );
+    counter.textContent=
+      `Llevamos juntos ${y} años, ${m} meses y ${d} días 💕`;
 }
 
 /* SÍ */
 yes.onclick=()=>{
     s1.style.display="none";
     s2.style.display="flex";
+
     calc();
-    play();
+    audio.play(); // 🎵 Aquí suena tu canción
 };
 </script>
 
