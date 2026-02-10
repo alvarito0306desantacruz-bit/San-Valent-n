@@ -18,6 +18,7 @@ body{
   background:linear-gradient(135deg,#ffe6ea,#fff1f5);
   color:#b03060;
   text-align:center;
+  overflow:hidden;
 }
 
 .screen{
@@ -36,11 +37,35 @@ body{
   width:100%;
 }
 
-/* Carta */
+/* CARTA */
 .envelope{
-  font-size:6em;
+  width:160px;
+  height:100px;
+  position:relative;
   cursor:pointer;
   animation:float 2s infinite;
+}
+
+.envelope .base{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#fff;
+  border-radius:10px;
+}
+
+.envelope .flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#f8d7e3;
+  clip-path:polygon(0 0,50% 50%,100% 0);
+  transform-origin:top;
+  transition:transform .8s ease;
+}
+
+.envelope.open .flap{
+  transform:rotateX(180deg);
 }
 
 @keyframes float{
@@ -102,7 +127,10 @@ button{
 
 <!-- PANTALLA CARTA -->
 <div class="screen" id="screen0">
-  <div class="envelope">💌</div>
+  <div class="envelope" id="envelope">
+    <div class="base"></div>
+    <div class="flap"></div>
+  </div>
   <p>Toca la carta… tengo algo que decirte 💕</p>
 </div>
 
@@ -140,6 +168,7 @@ button{
 </audio>
 
 <script>
+const envelope=document.getElementById("envelope");
 const s0=document.getElementById("screen0");
 const s1=document.getElementById("screen1");
 const s2=document.getElementById("screen2");
@@ -151,14 +180,19 @@ const counter=document.getElementById("counter");
 let scale=1;
 const start=new Date(2024,8,17);
 
-/* Abrir carta y desbloquear audio */
-s0.onclick=()=>{
+/* Abrir carta */
+envelope.onclick=()=>{
+  envelope.classList.add("open");
+
   audio.play().then(()=>{
     audio.pause();
     audio.currentTime=0;
   });
-  s0.style.display="none";
-  s1.style.display="flex";
+
+  setTimeout(()=>{
+    s0.style.display="none";
+    s1.style.display="flex";
+  },900);
 };
 
 /* NO → agranda SÍ */
@@ -175,7 +209,8 @@ function calc(){
   let d=t.getDate()-start.getDate();
   if(d<0){m--;d+=30;}
   if(m<0){y--;m+=12;}
-  counter.textContent=`Llevamos juntos ${y} años, ${m} meses y ${d} días 💕`;
+  counter.textContent=
+    `Llevamos juntos ${y} años, ${m} meses y ${d} días 💕`;
 }
 
 /* SÍ */
